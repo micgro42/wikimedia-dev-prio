@@ -1,17 +1,32 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <ApiKeyInput v-if="isApiKeyIsMissing" />
+    <section v-else>
+      <TaskSelector />
+      <Scoring :questions="questions" />
+    </section>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Scoring from './components/Scoring'
+import TaskSelector from './components/TaskSelector'
+import ApiKeyInput from './components/ApiKeyInput'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Scoring,
+    TaskSelector,
+    ApiKeyInput,
+  },
+  computed: {
+    isApiKeyIsMissing() {
+      return this.$store.state.phabricatorApiKey === ''
+    },
+    questions() {
+      return this.$store.state.features;
+    },
   }
 }
 </script>
